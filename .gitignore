@@ -1,0 +1,8 @@
+.vscode
+
+*.o
+*.exe
+*.dataLog
+
+main
+debug
