@@ -4,33 +4,37 @@
 #include "Ball.h"
 #include "Spring.h"
 
-int main() {
+int main()
+{
     InitWindow(config.screen.width, config.screen.height, "-- MUCH PHYSICS --");
-    //SetTargetFPS(config.screen.targetFPS);
+    // SetTargetFPS(config.screen.targetFPS);
 
     FreeCam cc = config.basicFreeCamera;
     setUpWorldDefault(configPhysicsWorld);
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose())
+    {
         float dt = GetFrameTime();
         float partial_dt = dt / config.stepsPerFrame;
-        if (dt > 0.1f) dt = 0.1f; // Safeguard against large lag spikes
+        if (dt > 0.1f)
+            dt = 0.1f; // Safeguard against large lag spikes
 
         cc.Update(dt);
 
-        for (int i = 0; i < config.stepsPerFrame; i++){
+        for (int i = 0; i < config.stepsPerFrame; i++)
+        {
             configPhysicsWorld.ApplyForces(partial_dt);
         }
 
         // --- Render ---
         BeginDrawing();
-            ClearBackground(config.background.color);
+        ClearBackground(config.background.color);
 
-            BeginMode3D(cc.GetCamera());
-                // Render spring and balls
-               configPhysicsWorld.Draw();
-            EndMode3D();
-            DrawFPS(10, 10);
+        BeginMode3D(cc.GetCamera());
+        // Render spring and balls
+        configPhysicsWorld.Draw();
+        EndMode3D();
+        DrawFPS(10, 10);
 
         EndDrawing();
     }

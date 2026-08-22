@@ -1,0 +1,7 @@
+# TODO
+
+- fix bounce dampening issue causing ball to phase through wall
+- Implement a rod
+- Implement a thruster
+
+# DONE

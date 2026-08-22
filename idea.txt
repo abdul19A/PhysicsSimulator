@@ -4,16 +4,13 @@ It is 3d physics.
 I want:
 - thrusters
 - springs
-- masses as points  
-- masses as spheres
-- ropes
-- sticks (like a rod that does not really stretch)
+- masses as points
+- rods
 - janky terrian
-- moving camera! borrow from my other project
 
 maybe even:
 - python script to see what i made
-- resurgence of the donut?
+- donut?
 - breakable sticks??? based on force??
 
 learn?
