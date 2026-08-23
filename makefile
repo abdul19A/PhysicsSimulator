@@ -6,7 +6,7 @@ SRCS = $(wildcard *.cpp)
 HDRS = $(wildcard *.h)
 OBJS = $(SRCS:.cpp=.o)
 TARGET = main
-DEBUG = debug
+
 # Default rule
 build: $(TARGET)
 

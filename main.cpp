@@ -7,7 +7,7 @@
 int main()
 {
     InitWindow(config.screen.width, config.screen.height, "-- MUCH PHYSICS --");
-    // SetTargetFPS(config.screen.targetFPS);
+    SetTargetFPS(config.screen.targetFPS);
 
     FreeCam cc = config.basicFreeCamera;
     setUpWorldDefault(configPhysicsWorld);

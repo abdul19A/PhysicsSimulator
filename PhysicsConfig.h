@@ -16,10 +16,10 @@ struct Config
     FreeCam basicFreeCamera{
         //{ 0.0f, 5.0f, -20.0f }, // startPos
         {3.0f, 1.0f, -8.0f},
-        1.5f, // turnSpeed
-        1.4f, // pitchLimit
-        5.0f, // moveSpeed
-        90.0f // fov
+        1.5f,  // turnSpeed
+        1.4f,  // pitchLimit
+        20.0f, // moveSpeed
+        90.0f  // fov
     };
 
     struct Background
@@ -31,9 +31,9 @@ struct Config
     {
         int width = 1000;
         int height = 800;
-        int targetFPS = 60;
+        int targetFPS = 600;
     } screen;
-    int stepsPerFrame = 100;
+    int stepsPerFrame = 10;
 };
 void setUpWorldDefault(PhysicsWorld &world);
 extern Config config;

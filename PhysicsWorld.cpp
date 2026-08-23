@@ -14,12 +14,18 @@ void PhysicsWorld::ApplyForces(float dt)
 
         ball.ApplyGravity(9.81f);
         ball.ForceToVelocity(dt);
-        float cur_dt = dt;
-        for (Wall &wall : walls)
+        float remaining_dt = dt;
+        int loopGaurd = 0;
+        do
         {
-            cur_dt = wall.WallCollideBall(ball, cur_dt);
-        }
-        ball.VelocityToPosition(cur_dt);
+            ball.collided = false;
+            for (const Wall &wall : walls)
+            {
+                remaining_dt = wall.WallCollideBall(ball, remaining_dt);
+            }
+        } while (ball.collided == true && ++loopGaurd < 4);
+        ball.VelocityToPosition(remaining_dt);
+
         ball.ResetForce();
     }
 }
