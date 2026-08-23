@@ -9,7 +9,7 @@ int main()
     InitWindow(config.screen.width, config.screen.height, "-- MUCH PHYSICS --");
     SetTargetFPS(config.screen.targetFPS);
 
-    FreeCam cc = config.basicFreeCamera;
+    FollowCam cc = config.basicCamera;
     setUpWorldDefault(configPhysicsWorld);
 
     while (!WindowShouldClose())
@@ -19,6 +19,7 @@ int main()
         if (dt > 0.1f)
             dt = 0.1f; // Safeguard against large lag spikes
 
+        cc.FollowPosition(configPhysicsWorld.getBall(21 * 21 / 2).position, dt);
         cc.Update(dt);
 
         for (int i = 0; i < config.stepsPerFrame; i++)

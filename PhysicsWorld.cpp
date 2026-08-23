@@ -35,7 +35,7 @@ void PhysicsWorld::Draw()
     for (const Ball &ball : balls)
     {
         DrawSphere(ball.position, ball.radius, ball.color);
-        DrawSphereWires(ball.position, ball.radius * 1.02f, 10, 10, WHITE);
+        // DrawSphereWires(ball.position, ball.radius * 1.01f, 5, 3, WHITE);
     }
     for (const Spring &spring : springs)
     {

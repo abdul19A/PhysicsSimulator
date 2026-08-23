@@ -11,7 +11,7 @@ struct Config
         1.4f,                // pitchLimit  in radian
         5.0f,                // moveSpeed
         90.0f,               // fovy
-        8.0f                 // followRadius
+        150.0f               // followRadius
     };
     FreeCam basicFreeCamera{
         //{ 0.0f, 5.0f, -20.0f }, // startPos
