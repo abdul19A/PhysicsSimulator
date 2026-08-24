@@ -18,9 +18,12 @@ int main()
         float partial_dt = dt / config.stepsPerFrame;
         if (dt > 0.1f)
             dt = 0.1f; // Safeguard against large lag spikes
-
-        cc.FollowPosition(configPhysicsWorld.getBall(21 * 21 / 2).position, dt);
+        if (configPhysicsWorld.numBalls > 1)
+            cc.FollowPosition(configPhysicsWorld.getBall(configPhysicsWorld.numBalls / 2).position, dt);
         cc.Update(dt);
+
+        if (!IsKeyDown(KEY_P))
+            partial_dt = 0.0f;
 
         for (int i = 0; i < config.stepsPerFrame; i++)
         {

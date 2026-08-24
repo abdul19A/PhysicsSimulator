@@ -1,10 +1,12 @@
 #include "Spring.h"
 #include <cmath>
 
-void Spring::ApplyForce(std::vector<Ball>& balls) {
-    Ball& topBall = balls.at(topIndex);
-    Ball& botBall = balls.at(botIndex);
-    if (!topBall.canMove && !botBall.canMove) return;
+void Spring::ApplyForce(std::vector<Ball> &balls)
+{
+    Ball &topBall = balls.at(topIndex);
+    Ball &botBall = balls.at(botIndex);
+    if (!topBall.canMove && !botBall.canMove)
+        return;
 
     Vector3 topPos = topBall.position;
     Vector3 botPos = botBall.position;
@@ -12,10 +14,11 @@ void Spring::ApplyForce(std::vector<Ball>& balls) {
     float dx = topPos.x - botPos.x;
     float dy = topPos.y - botPos.y;
     float dz = topPos.z - botPos.z;
-    
+
     float currentLength = std::sqrt(dx * dx + dy * dy + dz * dz);
 
-    if (currentLength < 1e-6f) return;
+    if (currentLength < 1e-6f)
+        return;
 
     // 3D Unit vector pointing from botBall to topBall
     float ux = dx / currentLength;
@@ -27,7 +30,7 @@ void Spring::ApplyForce(std::vector<Ball>& balls) {
     float springForceMag = -k * stretch;
 
     // Damping Force: F_damping = -c * (relative velocity dot unit vector)
-    
+
     float relVelX = topBall.velocity.x - botBall.velocity.x;
     float relVelY = topBall.velocity.y - botBall.velocity.y;
     float relVelZ = topBall.velocity.z - botBall.velocity.z;
@@ -37,16 +40,17 @@ void Spring::ApplyForce(std::vector<Ball>& balls) {
 
     float totalForceMag = springForceMag + dampingForceMag;
 
-    if (!topBall.canMove || !botBall.canMove) totalForceMag *= 2;
+    if (!topBall.canMove || !botBall.canMove)
+        totalForceMag *= 2;
 
     Vector3 netSpringForce = {
         totalForceMag * ux,
         totalForceMag * uy,
-        totalForceMag * uz
-    };
+        totalForceMag * uz};
 
     // Apply equal and opposite 3D forces using Ball's ApplyForce helper
-    if (topBall.canMove) topBall.ApplyForce(netSpringForce); 
-    if (botBall.canMove) botBall.ApplyForce({ -netSpringForce.x, -netSpringForce.y, -netSpringForce.z });
-
+    if (topBall.canMove)
+        topBall.ApplyForce(netSpringForce);
+    if (botBall.canMove)
+        botBall.ApplyForce({-netSpringForce.x, -netSpringForce.y, -netSpringForce.z});
 }

@@ -11,7 +11,7 @@ struct Config
         1.4f,                // pitchLimit  in radian
         5.0f,                // moveSpeed
         90.0f,               // fovy
-        150.0f               // followRadius
+        200.0f               // followRadius
     };
     FreeCam basicFreeCamera{
         //{ 0.0f, 5.0f, -20.0f }, // startPos
@@ -29,8 +29,8 @@ struct Config
 
     struct Screen
     {
-        int width = 1000;
-        int height = 800;
+        int width = 200;
+        int height = 200;
         int targetFPS = 600;
     } screen;
     int stepsPerFrame = 10;
