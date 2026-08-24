@@ -26,10 +26,10 @@ public:
         numWalls++;
         walls.push_back(wall);
     };
-    
-    void GenerateWall(float size);
+
+    void GenerateBox(float size);
     void GenerateNet(Vector3 start, Vector3 end, int width, int length);
-    
+
     Spring &getSpring(int index) { return springs.at(index); };
     Ball &getBall(int index) { return balls.at(index); };
     Wall &getWall(int index) { return walls.at(index); };
