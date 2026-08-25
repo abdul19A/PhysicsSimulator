@@ -29,11 +29,11 @@ struct Config
 
     struct Screen
     {
-        int width = 200;
-        int height = 200;
-        int targetFPS = 600;
+        int width = 1000;
+        int height = 800;
+        int targetFPS = 60;
     } screen;
-    int stepsPerFrame = 10;
+    int stepsPerFrame = 2;
 };
 void setUpWorldDefault(PhysicsWorld &world);
 extern Config config;

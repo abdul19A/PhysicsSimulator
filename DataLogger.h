@@ -1,42 +1,41 @@
 #pragma once
 
 #include <vector>
-#include <string>
+#include <iostream>
 #include <fstream>
-#include <stdexcept>
-#include "AdditionalVectorMethods.h"
+#include <string>
 
 template <typename T>
-class DataLogger {
+class DataLogger
+{
 public:
-    explicit DataLogger(std::string name) : dataName(std::move(name)), timeElapsed(0.0f) {}
+    DataLogger(std::string name) : dataName(std::move(name)) {}
 
-    void Log(T newData, float dt) {
+    void Log(T newData)
+    {
         dataPoints.push_back(newData);
-        timePoints.push_back(timeElapsed);
-        timeElapsed += dt;
     }
 
-    std::vector<T> getData() const { return dataPoints; }
-    std::vector<float> getTimePoints() const { return timePoints; }
+    std::vector<T> &getData() const { return dataPoints; }
 
-    bool WriteToFile() const {
+    bool WriteToFile() const
+    {
         const std::string filename = dataName + ".dataLog";
         std::ofstream file(filename);
-        if (!file.is_open()) {
+        if (!file.is_open())
+        {
             return false;
         }
 
-        file << "time," << dataName << "\n";
-        for (size_t i = 0; i < dataPoints.size(); ++i) {
-            file << timePoints[i] << "," << dataPoints[i] << "\n";
+        file << dataName << ";\n";
+        for (size_t i = 0; i < dataPoints.size(); ++i)
+        {
+            file << dataPoints[i] << ";\n";
         }
         return true;
     }
 
 private:
     std::string dataName;
-    std::vector<T>     dataPoints;
-    std::vector<float> timePoints;
-    float timeElapsed;
+    std::vector<T> dataPoints;
 };

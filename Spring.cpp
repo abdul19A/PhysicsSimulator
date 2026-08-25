@@ -1,6 +1,11 @@
 #include "Spring.h"
 #include <cmath>
-
+void Spring::Draw(const std::vector<Ball> &balls) const
+{
+    DrawLine3D(balls.at(topIndex).position,
+               balls.at(botIndex).position,
+               color);
+}
 void Spring::ApplyForce(std::vector<Ball> &balls)
 {
     Ball &topBall = balls.at(topIndex);
@@ -26,7 +31,8 @@ void Spring::ApplyForce(std::vector<Ball> &balls)
     float uz = dz / currentLength;
 
     // Hooke's Law: F_spring = -k * dx
-    float stretch = currentLength - baseLength;
+    stretch = currentLength - baseLength;
+
     float springForceMag = -k * stretch;
 
     // Damping Force: F_damping = -c * (relative velocity dot unit vector)

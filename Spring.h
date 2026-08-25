@@ -14,6 +14,9 @@ public:
     Spring &operator=(const Spring &other) = default;
 
     void ApplyForce(std::vector<Ball> &balls);
+    void Draw(const std::vector<Ball> &balls) const;
+
+    float stretch;
 
     Color color = BLACK;
     int topIndex = -1;

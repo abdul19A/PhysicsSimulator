@@ -45,6 +45,7 @@ void PhysicsWorld::GenerateNet(Vector3 start, Vector3 end, int width, int length
     getBall(width * length - 1).canMove = false;
     getBall(width * (length - 1)).canMove = false;
 }
+
 void PhysicsWorld::ApplyForces(float dt)
 {
     for (Spring &spring : springs)
@@ -69,42 +70,24 @@ void PhysicsWorld::ApplyForces(float dt)
                 remaining_dt = wall.WallCollideBall(ball, remaining_dt);
             }
         } while (ball.collided == true && ++loopGaurd < 4);
-
         ball.VelocityToPosition(remaining_dt);
 
         ball.ResetForce();
     }
 }
 
-void PhysicsWorld::Draw()
+void PhysicsWorld::Draw() const
 {
     for (const Ball &ball : balls)
     {
-        DrawSphere(ball.position, ball.radius, ball.color);
-        // DrawSphereWires(ball.position, ball.radius * 1.01f, 5, 3, WHITE);
+        ball.Draw();
     }
     for (const Spring &spring : springs)
     {
-        DrawLine3D(balls.at(spring.topIndex).position,
-                   balls.at(spring.botIndex).position,
-                   spring.color);
+        spring.Draw(balls);
     }
     for (const Wall &wall : walls)
     {
         wall.Draw();
-    }
-}
-
-void PhysicsWorld::OnExit()
-{
-    std::cout << "SAVING INFO: Writing to file..." << std::endl;
-
-    if (BallForce.WriteToFile())
-    {
-        std::cout << "SAVING INFO: writing complete!" << std::endl;
-    }
-    else
-    {
-        std::cout << "SAVING INFO: error writing" << std::endl;
     }
 }

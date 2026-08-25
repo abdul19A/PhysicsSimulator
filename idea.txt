@@ -15,3 +15,7 @@ maybe even:
 
 learn?
 - make shell file to adjust some consts quickly
+
+What kind of data to log:
+    choose what ball or spring
+    choose what data to log from each

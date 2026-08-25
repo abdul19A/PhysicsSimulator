@@ -8,6 +8,7 @@ class Ball
 {
 public:
     Ball() = default;
+
     Ball(Vector3 position, float weight, float radius, Color color, bool canMove) : position(position), weight(weight), radius(radius), color(color), canMove(canMove)
     {
         velocity = {0.0f, 0.0f, 0.0f};
@@ -23,6 +24,8 @@ public:
     void ApplyForce(Vector3 force) { netForce = Vector3Add(netForce, force); };
     void ForceToVelocity(float dt) { velocity = Vector3Add(velocity, Vector3Scale(netForce, dt)); };
     void VelocityToPosition(float dt) { position = Vector3Add(position, Vector3Scale(velocity, dt)); };
+
+    void Draw() const;
 
     Vector3 position;
     Vector3 velocity;

@@ -9,21 +9,18 @@
 class PhysicsWorld
 {
 public:
-    PhysicsWorld() : BallForce("bf") {};
+    PhysicsWorld() {};
 
     void addBall(Ball ball)
     {
-        numBalls++;
         balls.push_back(ball);
     };
     void addSpring(Spring spring)
     {
-        numSprings++;
         springs.push_back(spring);
     };
     void addWall(Wall wall)
     {
-        numWalls++;
         walls.push_back(wall);
     };
 
@@ -34,17 +31,16 @@ public:
     Ball &getBall(int index) { return balls.at(index); };
     Wall &getWall(int index) { return walls.at(index); };
 
-    void ApplyForces(float dt);
-    void Draw();
-    void OnExit();
+    int getNumBalls() const { return balls.size(); };
+    int getNumWalls() const { return walls.size(); };
+    int getNumSprings() const { return springs.size(); };
 
-    int numBalls;
-    int numWalls;
-    int numSprings;
+    void ApplyForces(float dt);
+    void Draw() const;
+    void OnExit();
 
 private:
     std::vector<Ball> balls;
     std::vector<Spring> springs;
     std::vector<Wall> walls;
-    DataLogger<Vector3> BallForce;
 };
