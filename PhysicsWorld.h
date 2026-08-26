@@ -37,7 +37,7 @@ public:
     int getNumSprings() const { return springs.size(); };
 
     void ApplyForces(float dt);
-    void Draw() const;
+    void Draw();
     void OnExit();
 
 private:

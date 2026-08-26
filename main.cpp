@@ -25,7 +25,7 @@ int main()
             cc.FollowPosition(Basic::world.getBall(Basic::world.getNumBalls() / 2).position, dt);
         cc.Update(dt);
 
-        Modifier::Wiggle(Basic::world, duration);
+        // Modifier::Wiggle(Basic::world, duration);
         for (int i = 0; i < Constants::stepsPerFrame; i++)
         {
             Basic::world.ApplyForces(partial_dt);

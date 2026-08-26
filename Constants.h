@@ -2,7 +2,6 @@
 
 #include <raylib.h>
 #include "CameraController.h"
-#include "PhysicsWorld.h"
 
 class BgAttrib
 {
@@ -23,16 +22,23 @@ class Constants
 public:
     static const float gravity;
     static const int stepsPerFrame;
+    static const float springColorSensitivity;
+    static const float springLimit;
+    static const bool springCanBreak;
 };
 
 class NetAttrib
 {
 public:
-    static const float springLength;
     static const float springK; // Higher stiffness helps hold up longer chains
     static const float springC; // Keeps the chain from oscillating infinitely
     static const float ballWeight;
     static const float ballRadius;
+    static Vector3 start;
+    static Vector3 end;
+    static const int width;
+    static const int length;
+    static const float springSize;
 };
 
 class CanDraw

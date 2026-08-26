@@ -39,9 +39,9 @@ void PhysicsWorld::GenerateNet(Vector3 start, Vector3 end, int width, int length
             addBall(Ball(pos, NetAttrib::ballWeight, NetAttrib::ballRadius, GRAY, true));
             int index = j + i * length;
             if (j < length - 1)
-                addSpring(Spring(index, index + 1, dv, NetAttrib::springK, NetAttrib::springC));
+                addSpring(Spring(index, index + 1, dv * NetAttrib::springSize, NetAttrib::springK, NetAttrib::springC));
             if (i < width - 1)
-                addSpring(Spring(index, index + length, du, NetAttrib::springK, NetAttrib::springC));
+                addSpring(Spring(index, index + length, du * NetAttrib::springSize, NetAttrib::springK, NetAttrib::springC));
         }
     }
     getBall(0).canMove = false;
@@ -80,7 +80,7 @@ void PhysicsWorld::ApplyForces(float dt)
     }
 }
 
-void PhysicsWorld::Draw() const
+void PhysicsWorld::Draw()
 {
     if (CanDraw::ball)
         for (const Ball &ball : balls)
@@ -88,7 +88,7 @@ void PhysicsWorld::Draw() const
             ball.Draw();
         }
     if (CanDraw::spring)
-        for (const Spring &spring : springs)
+        for (Spring &spring : springs)
         {
             spring.Draw(balls);
         }

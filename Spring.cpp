@@ -1,13 +1,17 @@
 #include "Spring.h"
-#include <cmath>
-void Spring::Draw(const std::vector<Ball> &balls) const
+
+void Spring::Draw(const std::vector<Ball> &balls)
 {
+    float colorT = std::clamp(Constants::springColorSensitivity / (std::abs(stretch) + 1), 0.0f, 1.0f);
+    color = ColorLerp(RED, GREEN, colorT);
     DrawLine3D(balls.at(topIndex).position,
                balls.at(botIndex).position,
                color);
 }
 void Spring::ApplyForce(std::vector<Ball> &balls)
 {
+    if (isBroken)
+        return;
     Ball &topBall = balls.at(topIndex);
     Ball &botBall = balls.at(botIndex);
     if (!topBall.canMove && !botBall.canMove)
@@ -32,6 +36,11 @@ void Spring::ApplyForce(std::vector<Ball> &balls)
 
     // Hooke's Law: F_spring = -k * dx
     stretch = currentLength - baseLength;
+    if (stretch > Constants::springLimit && Constants::springCanBreak)
+    {
+        isBroken = true;
+        return;
+    }
 
     float springForceMag = -k * stretch;
 
@@ -59,8 +68,4 @@ void Spring::ApplyForce(std::vector<Ball> &balls)
         topBall.ApplyForce(netSpringForce);
     if (botBall.canMove)
         botBall.ApplyForce({-netSpringForce.x, -netSpringForce.y, -netSpringForce.z});
-
-    float colDrop = std::abs(stretch) + 1;
-    float colorT = 1 / (colDrop * colDrop);
-    color = ColorLerp(RED, GREEN, colorT);
 }
