@@ -1,56 +1,49 @@
 #include "raylib.h"
-#include "PhysicsConfig.h"
+#include "Constants.h"
 #include "CameraController.h"
 #include "Ball.h"
 #include "Spring.h"
+#include "Modifier.h"
+#include "defaults.h"
 
 int main()
 {
-    InitWindow(config.screen.width, config.screen.height, "-- MUCH PHYSICS --");
-    SetTargetFPS(config.screen.targetFPS);
+    // SetConfigFlags(FLAG_MSAA_4X_HINT);
+    InitWindow(ScreenAttrib::width, ScreenAttrib::height, "-- MUCH PHYSICS --");
+    // SetTargetFPS(config.screen.targetFPS);
 
-    FollowCam cc = config.basicCamera;
-    setUpWorldDefault(configPhysicsWorld);
-
-    bool drawInfo = false;
-    int numFrame = 0;
+    FollowCam cc = Basic::camera;
+    Modifier::WorldDefaultSetup(Basic::world);
+    float dt = 0.0f;
+    float duration = 0.0f;
     while (!WindowShouldClose())
     {
-        numFrame++;
-        float dt = GetFrameTime();
-        float partial_dt = dt / config.stepsPerFrame;
+        float partial_dt = dt / Constants::stepsPerFrame;
         if (dt > 0.1f)
             dt = 0.1f; // Safeguard against large lag spikes
-        if (configPhysicsWorld.getNumBalls() > 1)
-            cc.FollowPosition(configPhysicsWorld.getBall(configPhysicsWorld.getNumBalls() / 2).position, dt);
+        if (Basic::world.getNumBalls() > 1)
+            cc.FollowPosition(Basic::world.getBall(Basic::world.getNumBalls() / 2).position, dt);
         cc.Update(dt);
 
-        if (IsKeyDown(KEY_P))
-            partial_dt = 0.0f;
-
-        if (IsKeyDown(KEY_I))
-            drawInfo = true;
-        else
+        Modifier::Wiggle(Basic::world, duration);
+        for (int i = 0; i < Constants::stepsPerFrame; i++)
         {
-            drawInfo = false;
-        }
-        for (int i = 0; i < config.stepsPerFrame; i++)
-        {
-            configPhysicsWorld.ApplyForces(partial_dt);
+            Basic::world.ApplyForces(partial_dt);
         }
 
         // --- Render ---
         BeginDrawing();
-        ClearBackground(config.background.color);
+        ClearBackground(BgAttrib::color);
 
         BeginMode3D(cc.GetCamera());
         // Render spring and balls
-        configPhysicsWorld.Draw();
+        Basic::world.Draw();
 
         EndMode3D();
         DrawFPS(10, 10);
-        DrawText(TextFormat("numFrame: %d", numFrame), config.screen.width * .025, config.screen.height * .1, 10, BLUE);
         EndDrawing();
+        dt = GetFrameTime();
+        duration += dt;
     }
 
     CloseWindow();

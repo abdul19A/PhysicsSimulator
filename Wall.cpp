@@ -33,13 +33,13 @@ void Wall::Draw() const
     DrawTriangle3D(corners[2], corners[1], corners[0], color);
     DrawTriangle3D(corners[0], corners[3], corners[2], color);
 
-    for (int i = 0; i < 3; i++)
+    /*for (int i = 0; i < 3; i++)
     {
         for (int j = i + 1; j < 4; j++)
         {
             DrawLine3D(corners[i], corners[j], WHITE);
         }
-    }
+    }*/
 }
 float Wall::GetSignedDistance(Ball &ball)
 {

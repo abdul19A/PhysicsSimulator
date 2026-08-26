@@ -5,6 +5,7 @@
 #include "Spring.h"
 #include "Wall.h"
 #include "DataLogger.h"
+#include "Constants.h"
 
 class PhysicsWorld
 {
@@ -43,4 +44,6 @@ private:
     std::vector<Ball> balls;
     std::vector<Spring> springs;
     std::vector<Wall> walls;
+
+    friend class Modifier;
 };

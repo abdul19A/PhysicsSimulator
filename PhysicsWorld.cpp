@@ -2,27 +2,31 @@
 
 void PhysicsWorld::GenerateBox(float size)
 {
-    addWall(Wall({0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {size, size}, BLUE, 1.0f, 1.0f));
-    addWall(Wall({size, size, 0.0f}, {-1.0f, 0.0f, 0.0f}, {size, size}, RED, 1.0f, 1.0f));
-    addWall(Wall({-size, size, 0.0f}, {1.0f, 0.0f, 0.0f}, {size, size}, YELLOW, 1.0f, 1.0f));
-    addWall(Wall({0.0f, size, size}, {0.0f, 0.0f, -1.0f}, {size, size}, GREEN, 1.0f, 1.0f));
-    addWall(Wall({0.0f, size, -size}, {0.0f, 0.0f, 1.0f}, {size, size}, ORANGE, 1.0f, 1.0f));
-    addWall(Wall({0.0f, 2 * size, 0.0f}, {0.0f, -1.0f, 0.0f}, {size, size}, PURPLE, 1.0f, 1.0f));
+    addWall(Wall({0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {size, size}, BoxAttrib::colors[0], 1.0f, 1.0f));
+    addWall(Wall({size, size, 0.0f}, {-1.0f, 0.0f, 0.0f}, {size, size}, BoxAttrib::colors[1], 1.0f, 1.0f));
+    addWall(Wall({-size, size, 0.0f}, {1.0f, 0.0f, 0.0f}, {size, size}, BoxAttrib::colors[2], 1.0f, 1.0f));
+    addWall(Wall({0.0f, size, size}, {0.0f, 0.0f, -1.0f}, {size, size}, BoxAttrib::colors[3], 1.0f, 1.0f));
+    addWall(Wall({0.0f, size, -size}, {0.0f, 0.0f, 1.0f}, {size, size}, BoxAttrib::colors[4], 1.0f, 1.0f));
+    addWall(Wall({0.0f, 2 * size, 0.0f}, {0.0f, -1.0f, 0.0f}, {size, size}, BoxAttrib::colors[5], 1.0f, 1.0f));
 }
 
 void PhysicsWorld::GenerateNet(Vector3 start, Vector3 end, int width, int length)
 {
-    const float restLength = 0.0f;
-    const float springK = 500.0f; // Higher stiffness helps hold up longer chains
-    const float dampingC = 10.5;  // Keeps the chain from oscillating infinitely
-    const float weight = 0.1f;
-    const float radius = 1.0f;
-
+    float du, dv;
     if (width < 2)
-        return;
-
-    float du = (end.x - start.x) / (width - 1);
-    float dv = (end.z - start.z) / (length - 1);
+        du = 0;
+    else
+    {
+        du = (end.x - start.x) / (width - 1);
+    }
+    if (length < 2)
+    {
+        dv = 0;
+    }
+    else
+    {
+        dv = (end.z - start.z) / (length - 1);
+    }
 
     for (int i = 0; i < width; i++)
     {
@@ -32,18 +36,18 @@ void PhysicsWorld::GenerateNet(Vector3 start, Vector3 end, int width, int length
             pos.x += du * static_cast<float>(i);
             pos.z += dv * static_cast<float>(j);
 
-            addBall(Ball(pos, weight, radius, GRAY, true));
+            addBall(Ball(pos, NetAttrib::ballWeight, NetAttrib::ballRadius, GRAY, true));
             int index = j + i * length;
             if (j < length - 1)
-                addSpring(Spring(index, index + 1, dv, springK, dampingC));
+                addSpring(Spring(index, index + 1, dv, NetAttrib::springK, NetAttrib::springC));
             if (i < width - 1)
-                addSpring(Spring(index, index + length, du, springK, dampingC));
+                addSpring(Spring(index, index + length, du, NetAttrib::springK, NetAttrib::springC));
         }
     }
     getBall(0).canMove = false;
     getBall(length - 1).canMove = false;
     getBall(width * length - 1).canMove = false;
-    getBall(width * (length - 1)).canMove = false;
+    getBall((width - 1) * length).canMove = false;
 }
 
 void PhysicsWorld::ApplyForces(float dt)
@@ -58,7 +62,7 @@ void PhysicsWorld::ApplyForces(float dt)
         if (!ball.canMove)
             continue;
 
-        ball.ApplyGravity(9.81f);
+        ball.ApplyGravity(Constants::gravity);
         ball.ForceToVelocity(dt);
         float remaining_dt = dt;
         int loopGaurd = 0;
@@ -69,7 +73,7 @@ void PhysicsWorld::ApplyForces(float dt)
             {
                 remaining_dt = wall.WallCollideBall(ball, remaining_dt);
             }
-        } while (ball.collided == true && ++loopGaurd < 4);
+        } while (ball.collided == true && ++loopGaurd < Gaurd::collisionLoop);
         ball.VelocityToPosition(remaining_dt);
 
         ball.ResetForce();
@@ -78,16 +82,21 @@ void PhysicsWorld::ApplyForces(float dt)
 
 void PhysicsWorld::Draw() const
 {
-    for (const Ball &ball : balls)
-    {
-        ball.Draw();
-    }
-    for (const Spring &spring : springs)
-    {
-        spring.Draw(balls);
-    }
-    for (const Wall &wall : walls)
-    {
-        wall.Draw();
-    }
+    if (CanDraw::ball)
+        for (const Ball &ball : balls)
+        {
+            ball.Draw();
+        }
+    if (CanDraw::spring)
+        for (const Spring &spring : springs)
+        {
+            spring.Draw(balls);
+        }
+    if (CanDraw::wall)
+        for (const Wall &wall : walls)
+        {
+            wall.Draw();
+        }
+    if (CanDraw::plane)
+        DrawGrid(10, BoxAttrib::size / 5.0f);
 }

@@ -59,4 +59,8 @@ void Spring::ApplyForce(std::vector<Ball> &balls)
         topBall.ApplyForce(netSpringForce);
     if (botBall.canMove)
         botBall.ApplyForce({-netSpringForce.x, -netSpringForce.y, -netSpringForce.z});
+
+    float colDrop = std::abs(stretch) + 1;
+    float colorT = 1 / (colDrop * colDrop);
+    color = ColorLerp(RED, GREEN, colorT);
 }
