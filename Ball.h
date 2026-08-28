@@ -21,7 +21,7 @@ public:
     // Physics
     void ResetForce() { netForce = {0.0f, 0.0f, 0.0f}; };
     void ApplyGravity(float gravity) { netForce = Vector3Subtract(netForce, {0.0f, gravity, 0.0f}); };
-    void ApplyForce(Vector3 force) { netForce = Vector3Add(netForce, force); };
+    void ApplyForce(Vector3 force) { netForce = Vector3Add(netForce, Vector3Scale(force, 1.0f / weight)); };
     void ForceToVelocity(float dt) { velocity = Vector3Add(velocity, Vector3Scale(netForce, dt)); };
     void VelocityToPosition(float dt) { position = Vector3Add(position, Vector3Scale(velocity, dt)); };
 

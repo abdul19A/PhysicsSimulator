@@ -2,8 +2,17 @@
 
 void Spring::Draw(const std::vector<Ball> &balls)
 {
-    float colorT = std::clamp(Constants::springColorSensitivity / (std::abs(stretch) + 1), 0.0f, 1.0f);
-    color = ColorLerp(RED, GREEN, colorT);
+    float colorT;
+    if (baseLength == 0.0f || stretch == 0.0f)
+        colorT = 0.0f;
+    else
+    {
+        float ratio = stretch / baseLength;
+        float inv = baseLength / stretch;
+
+        colorT = std::clamp(2.0f * Constants::springColorSensitivity / (ratio + inv), 0.0f, 1.0f);
+    }
+    color = ColorLerp(GREEN, RED, colorT);
     DrawLine3D(balls.at(topIndex).position,
                balls.at(botIndex).position,
                color);

@@ -12,6 +12,16 @@ void Modifier::WorldDefaultSetup(PhysicsWorld &world)
     // spring args: Spring(ballIndex1, ballIndex2, baseLength, springK, dampingC));
     // length first
     world.getBall(0).canMove = false;
+    for (int i = 0; i < NetAttrib::length; i++)
+    {
+        world.getBall(i).canMove = false;
+        world.getBall(i + (NetAttrib::width - 1) * NetAttrib::length).canMove = false;
+    }
+    for (int i = 0; i < NetAttrib::width * NetAttrib::length; i += NetAttrib::length)
+    {
+        world.getBall(i).canMove = false;
+        world.getBall(i + NetAttrib::length - 1).canMove = false;
+    }
     world.getBall(NetAttrib::width * NetAttrib::length - 1).canMove = false;
 }
 void Modifier::Wiggle(PhysicsWorld &world, float duration)

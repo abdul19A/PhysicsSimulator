@@ -7,21 +7,21 @@ const int ScreenAttrib::height = 800;
 const int ScreenAttrib::targetFPS = 60;
 
 const float Constants::gravity = 10.0f;
-const int Constants::stepsPerFrame = 1;
-const float Constants::springColorSensitivity = 1.0f;
+const int Constants::stepsPerFrame = 1;               // how many times physics handled per frame
+const float Constants::springColorSensitivity = 1.0f; // multiplies the "greeness" of a spring
 const float Constants::springLimit = 50.0f;
 const bool Constants::springCanBreak = false;
 
 const float NetAttrib::springSize = 1.0f;
-const float NetAttrib::springK = 500.0f; // Higher stiffness helps hold up longer chains
-const float NetAttrib::springC = 10.0;   // Keeps the chain from oscillating infinitely
-const float NetAttrib::ballWeight = 0.0f;
+const float NetAttrib::springK = 100.0f; // Higher stiffness helps hold up longer chains
+const float NetAttrib::springC = 1.0;    // Keeps the chain from oscillating infinitely
+const float NetAttrib::ballWeight = 1.0f;
 const float NetAttrib::ballRadius = 1.0f;
 
-Vector3 NetAttrib::start = {-299, 700, -300};
-Vector3 NetAttrib::end = {299, 700, 300};
-const int NetAttrib::width = 51;
-const int NetAttrib::length = 51;
+Vector3 NetAttrib::start = {-299, 10000, -300};
+Vector3 NetAttrib::end = {299, 10000, 300};
+const int NetAttrib::width = 101;
+const int NetAttrib::length = 101;
 
 const bool CanDraw::ball = false;
 const bool CanDraw::spring = true;
@@ -29,5 +29,5 @@ const bool CanDraw::wall = false;
 const bool CanDraw::plane = true;
 
 Color BoxAttrib::colors[6] = {RED, PURPLE, BLUE, GREEN, YELLOW, ORANGE};
-const float BoxAttrib::size = 1000.0f;
+const float BoxAttrib::size = 100000.0f;
 const int Gaurd::collisionLoop = 4;
